@@ -46,17 +46,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        findViewById(R.id.toggle_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mAlternateTitle) {
-                    setTitle(R.string.app_name);
-                } else {
-                    setTitle(R.string.alternate_title);
-                }
-                mAlternateTitle = !mAlternateTitle;
-            }
-        });
+        setTitle(R.string.app_name);
         
         MapView mapView = (MapView) findViewById(R.id.mapview);
         
@@ -132,6 +122,7 @@ public class MainActivity extends ActionBarActivity {
 			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
 //			
 //			makeUseOfNewLocation(location);
+
 
 		}
 
