@@ -16,16 +16,9 @@
 
 package cz.mapyhazardu.android;
 
-import com.example.android.actionbarcompat.R;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
-
 import cz.mapyhazardu.android.task.FetchCasinosTask;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -33,37 +26,34 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.example.android.actionbarcompat.R;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.OverlayItem;
+
 public class MainActivity extends ActionBarActivity {
-    private boolean mAlternateTitle = false;
 
 	private MapController mapController;
 	private MapView mapView;
 	private LocationManager locationManager;
 	private CasinoOverlay casinoOverlay;
 
+	private MyLocationOverlay myLocationOverlay;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        findViewById(R.id.toggle_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mAlternateTitle) {
-                    setTitle(R.string.app_name);
-                } else {
-                    setTitle(R.string.alternate_title);
-                }
-                mAlternateTitle = !mAlternateTitle;
-            }
-        });
+        setTitle(R.string.app_name);
         
         MapView mapView = (MapView) findViewById(R.id.mapview);
         
 		mapView.setBuiltInZoomControls(true);
-		mapView.setStreetView(true);
+		mapView.setSatellite(false);
 		mapController = mapView.getController();
 		mapController.setZoom(19); // Zoon 1 is world view
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -72,12 +62,40 @@ public class MainActivity extends ActionBarActivity {
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 				0, new GeoUpdateHandler());
 
-		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), mapView);
-//		Drawable drawable = this.getResources().getDrawable(R.drawable.point);
-//		itemizedoverlay = new MyOverlays(drawable);
-//		createMarker();
-		
+		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this);
+		         
+//			        List<Overlay> mapOverlays = mapView.getOverlays();
+//			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
+//			        CustomItemizedOverlay itemizedOverlay =
+//			             new CustomItemizedOverlay(drawable, this);
+//			         
+//			        OverlayItem overlayitem =
+//			             new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
+//			         
+//			        itemizedOverlay.addOverlay(overlayitem);
+//			        mapOverlays.add(itemizedOverlay);
+			         
+			         
 
+
+		myLocationOverlay = new MyLocationOverlay(this, mapView);
+		// add this overlay to the MapView and refresh it
+        mapView.getOverlays().add(myLocationOverlay);
+        mapView.postInvalidate();		
+    }
+    
+    @Override
+    protected void onResume() {
+            super.onResume();
+            // when our activity resumes, we want to register for location updates
+            myLocationOverlay.enableMyLocation();
+    }
+
+    @Override
+    protected void onPause() {
+            super.onPause();
+            // when our activity pauses, we want to remove listening for location updates
+            myLocationOverlay.disableMyLocation();
     }
 
     @Override
@@ -123,12 +141,11 @@ public class MainActivity extends ActionBarActivity {
     
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	private void fetchCasinos(Location location) {
-		new FetchCasinosTask(casinoOverlay).execute(location);
+		new FetchCasinosTask(casinoOverlay, mapView).execute(location);
 	}
 	
 	public class GeoUpdateHandler implements LocationListener {
@@ -140,6 +157,7 @@ public class MainActivity extends ActionBarActivity {
 //			
 			fetchCasinos(location);
 //			makeUseOfNewLocation(location);
+
 
 		}
 
@@ -155,12 +173,4 @@ public class MainActivity extends ActionBarActivity {
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 		}
 	}
-
-	private void createMarker() {
-//		GeoPoint p = mapView.getMapCenter();
-//		OverlayItem overlayitem = new OverlayItem(p, "", "");
-//		itemizedoverlay.addOverlay(overlayitem);
-//		mapView.getOverlays().add(itemizedoverlay);
-	}
-
 }
