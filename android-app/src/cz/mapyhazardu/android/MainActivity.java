@@ -33,6 +33,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 
+import cz.mapyhazardu.android.MainActivity.GeoUpdateHandler;
+
 public class MainActivity extends ActionBarActivity {
 
 	private MapController mapController;
@@ -41,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
 	private CasinoOverlays itemizedoverlay;
 
 	private MyLocationOverlay myLocationOverlay;
+	private GeoUpdateHandler listener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +60,9 @@ public class MainActivity extends ActionBarActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
+		listener = new GeoUpdateHandler();
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, new GeoUpdateHandler());
+				0, listener);
 
 			         
 //			        List<Overlay> mapOverlays = mapView.getOverlays();
@@ -84,15 +88,21 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
             super.onResume();
-            // when our activity resumes, we want to register for location updates
             myLocationOverlay.enableMyLocation();
     }
 
     @Override
     protected void onPause() {
             super.onPause();
-            // when our activity pauses, we want to remove listening for location updates
             myLocationOverlay.disableMyLocation();
+    }
+    
+    @Override
+    protected void onStop() {
+    	if (listener != null) {
+    		locationManager.removeUpdates(listener);
+    	}
+    	super.onStop();
     }
 
     @Override
@@ -167,11 +177,4 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 
-	private void createMarker() {
-		GeoPoint p = mapView.getMapCenter();
-		OverlayItem overlayitem = new OverlayItem(p, "", "");
-		itemizedoverlay.addOverlay(overlayitem);
-		mapView.getOverlays().add(itemizedoverlay);
-	}
-		
 }
