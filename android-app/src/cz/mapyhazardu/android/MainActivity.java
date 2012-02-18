@@ -22,6 +22,8 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
+import cz.mapyhazardu.android.task.FetchCasinosTask;
+
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -40,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
 	private MapController mapController;
 	private MapView mapView;
 	private LocationManager locationManager;
-	private CasinoOverlays itemizedoverlay;
+	private CasinoOverlay casinoOverlay;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +69,10 @@ public class MainActivity extends ActionBarActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 				0, new GeoUpdateHandler());
 
+		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), mapView);
 //		Drawable drawable = this.getResources().getDrawable(R.drawable.point);
 //		itemizedoverlay = new MyOverlays(drawable);
 //		createMarker();
@@ -124,6 +127,10 @@ public class MainActivity extends ActionBarActivity {
 		return false;
 	}
 	
+	private void fetchCasinos(Location location) {
+		new FetchCasinosTask(casinoOverlay).execute(location);
+	}
+	
 	public class GeoUpdateHandler implements LocationListener {
 
 		@Override
@@ -131,6 +138,7 @@ public class MainActivity extends ActionBarActivity {
 			//createMarker();
 			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
 //			
+			fetchCasinos(location);
 //			makeUseOfNewLocation(location);
 
 		}
@@ -149,10 +157,10 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void createMarker() {
-		GeoPoint p = mapView.getMapCenter();
-		OverlayItem overlayitem = new OverlayItem(p, "", "");
-		itemizedoverlay.addOverlay(overlayitem);
-		mapView.getOverlays().add(itemizedoverlay);
+//		GeoPoint p = mapView.getMapCenter();
+//		OverlayItem overlayitem = new OverlayItem(p, "", "");
+//		itemizedoverlay.addOverlay(overlayitem);
+//		mapView.getOverlays().add(itemizedoverlay);
 	}
 
 }
