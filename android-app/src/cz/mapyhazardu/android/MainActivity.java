@@ -16,17 +16,7 @@
 
 package cz.mapyhazardu.android;
 
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Point;
-=======
-import android.content.Context;
->>>>>>> 65221fbe4e5047a2d0eac57bd6b67cae17742eb4
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -34,28 +24,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-<<<<<<< HEAD
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-=======
->>>>>>> 65221fbe4e5047a2d0eac57bd6b67cae17742eb4
 import android.widget.Toast;
 
 import com.example.android.actionbarcompat.R;
 import com.google.android.maps.GeoPoint;
-<<<<<<< HEAD
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.Overlay;
-=======
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
->>>>>>> 65221fbe4e5047a2d0eac57bd6b67cae17742eb4
 import com.google.android.maps.OverlayItem;
 
 public class MainActivity extends ActionBarActivity {
@@ -64,13 +39,8 @@ public class MainActivity extends ActionBarActivity {
 	private MapView mapView;
 	private LocationManager locationManager;
 	private CasinoOverlays itemizedoverlay;
-<<<<<<< HEAD
-	
-	private static final int latitudeE6 = 37985339;
-	private static final int longitudeE6 = 23716735;
-=======
+
 	private MyLocationOverlay myLocationOverlay;
->>>>>>> 65221fbe4e5047a2d0eac57bd6b67cae17742eb4
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
         MapView mapView = (MapView) findViewById(R.id.mapview);
         
 		mapView.setBuiltInZoomControls(true);
-		mapView.setStreetView(true);
+		mapView.setSatellite(false);
 		mapController = mapView.getController();
 		mapController.setZoom(19); // Zoon 1 is world view
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -90,39 +60,25 @@ public class MainActivity extends ActionBarActivity {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new GeoUpdateHandler());
 
-<<<<<<< HEAD
-//		Drawable drawable = this.getResources().getDrawable(R.drawable.point);
-//		itemizedoverlay = new MyOverlays(drawable);
-//		createMarker();
-		
 			         
-			        List<Overlay> mapOverlays = mapView.getOverlays();
-			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
-			        CustomItemizedOverlay itemizedOverlay =
-			             new CustomItemizedOverlay(drawable, this);
-			         
-//			        GeoPoint point = new GeoPoint(latitudeE6, longitudeE6);
-			        OverlayItem overlayitem =
-			             new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
-			         
-			        itemizedOverlay.addOverlay(overlayitem);
-			        mapOverlays.add(itemizedOverlay);
-			         
-//			        MapController mapController = mapView.getController();
+//			        List<Overlay> mapOverlays = mapView.getOverlays();
+//			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
+//			        CustomItemizedOverlay itemizedOverlay =
+//			             new CustomItemizedOverlay(drawable, this);
 //			         
-//			        mapController.animateTo(LocationUtils.getGeoPoint(lastKnownLocation));
-//			        mapController.setZoom(6);
+//			        OverlayItem overlayitem =
+//			             new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
+//			         
+//			        itemizedOverlay.addOverlay(overlayitem);
+//			        mapOverlays.add(itemizedOverlay);
+			         
 			         
 
 
-=======
-		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_maps_indicator_current_position);
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
 		// add this overlay to the MapView and refresh it
         mapView.getOverlays().add(myLocationOverlay);
         mapView.postInvalidate();		
->>>>>>> 65221fbe4e5047a2d0eac57bd6b67cae17742eb4
-
     }
     
     @Override
