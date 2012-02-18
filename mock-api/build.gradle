@@ -47,20 +47,18 @@ sourceSets {
 dependencies {
     def gaeVersion = '1.6.1'
     groovy 'org.codehaus.groovy:groovy-all:1.8.4'
-    compile "com.google.appengine:appengine-api-1.0-sdk:$gaeVersion",
-            "com.google.appengine:appengine-api-labs:$gaeVersion",
-            'glaforge:gaelyk:1.1'
+    compile 'glaforge:gaelyk:1.1'
 
     testCompile 'org.spockframework:spock-core:0.5-groovy-1.8', {
         exclude group: 'org.codehaus.groovy', name: 'groovy-all'
     }
+	
     testCompile 'marcoVermeulen:gaelyk-spock:0.2',
-                "com.google.appengine:appengine-api-stubs:$gaeVersion",
-                "com.google.appengine:appengine-testing:$gaeVersion",
+    
                 'javax.servlet:servlet-api:2.5',
                 'cglib:cglib-nodep:2.2',
                 'org.objenesis:objenesis:1.2'
-    gaeSdk "com.google.appengine:appengine-java-sdk:$gaeVersion"
+    
 }
 
 webAppDirName = file('war')
