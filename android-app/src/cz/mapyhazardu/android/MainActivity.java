@@ -34,13 +34,14 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 
 import cz.mapyhazardu.android.MainActivity.GeoUpdateHandler;
+import cz.mapyhazardu.android.task.FetchCasinosTask;
 
 public class MainActivity extends ActionBarActivity {
 
 	private MapController mapController;
 	private MapView mapView;
 	private LocationManager locationManager;
-	private CasinoOverlays itemizedoverlay;
+	private CasinoOverlay casinoOverlay;
 
 	private MyLocationOverlay myLocationOverlay;
 	private GeoUpdateHandler listener;
@@ -65,6 +66,8 @@ public class MainActivity extends ActionBarActivity {
 				0, listener);
 
 			         
+		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this);
+        
 //			        List<Overlay> mapOverlays = mapView.getOverlays();
 //			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
 //			        CustomItemizedOverlay itemizedOverlay =
@@ -152,6 +155,10 @@ public class MainActivity extends ActionBarActivity {
 		return false;
 	}
 	
+	private void fetchCasinos(Location location) {
+		new FetchCasinosTask(casinoOverlay, mapView).execute(location);
+	}
+	
 	public class GeoUpdateHandler implements LocationListener {
 
 		@Override
@@ -159,6 +166,7 @@ public class MainActivity extends ActionBarActivity {
 			//createMarker();
 			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
 //			
+			fetchCasinos(location);
 //			makeUseOfNewLocation(location);
 
 
