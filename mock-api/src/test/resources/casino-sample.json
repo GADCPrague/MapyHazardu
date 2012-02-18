@@ -1,7 +1,8 @@
 {
-	"title": "Test casion 1",
-	"position": [17.9676526, 49.470587],
-	"openingHours": "8-24",
+	"nazev": "Test casion 1",
+	"latitude": "17.9676526",
+	"longtitude": "49.470587",
+	"oteviraciDoba": "8-24",
 	"majitel": "00000000",
 	"provozovatel": "00000000" 	
 }
