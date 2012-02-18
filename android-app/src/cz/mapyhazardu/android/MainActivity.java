@@ -17,6 +17,7 @@
 package cz.mapyhazardu.android;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,6 +31,7 @@ import com.example.android.actionbarcompat.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 
 public class MainActivity extends ActionBarActivity {
@@ -38,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
 	private MapView mapView;
 	private LocationManager locationManager;
 	private CasinoOverlays itemizedoverlay;
+	private MyLocationOverlay myLocationOverlay;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +60,26 @@ public class MainActivity extends ActionBarActivity {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new GeoUpdateHandler());
 
-//		Drawable drawable = this.getResources().getDrawable(R.drawable.point);
-//		itemizedoverlay = new MyOverlays(drawable);
-//		createMarker();
-		
+		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_maps_indicator_current_position);
+		myLocationOverlay = new MyLocationOverlay(this, mapView);
+		// add this overlay to the MapView and refresh it
+        mapView.getOverlays().add(myLocationOverlay);
+        mapView.postInvalidate();		
 
+    }
+    
+    @Override
+    protected void onResume() {
+            super.onResume();
+            // when our activity resumes, we want to register for location updates
+            myLocationOverlay.enableMyLocation();
+    }
+
+    @Override
+    protected void onPause() {
+            super.onPause();
+            // when our activity pauses, we want to remove listening for location updates
+            myLocationOverlay.disableMyLocation();
     }
 
     @Override
