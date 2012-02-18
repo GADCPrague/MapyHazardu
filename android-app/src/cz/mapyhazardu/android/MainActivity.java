@@ -16,14 +16,7 @@
 
 package cz.mapyhazardu.android;
 
-import com.example.android.actionbarcompat.R;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
-
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,11 +24,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.example.android.actionbarcompat.R;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
+
 public class MainActivity extends ActionBarActivity {
-    private boolean mAlternateTitle = false;
 
 	private MapController mapController;
 	private MapView mapView;
