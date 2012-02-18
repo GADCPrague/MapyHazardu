@@ -63,9 +63,10 @@ public class MainActivity extends ActionBarActivity {
 		mapView.setBuiltInZoomControls(true);
 		mapView.setStreetView(true);
 		mapController = mapView.getController();
-		mapController.setZoom(14); // Zoon 1 is world view
+		mapController.setZoom(19); // Zoon 1 is world view
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new GeoUpdateHandler());
 
@@ -127,11 +128,8 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			int lat = (int) (location.getLatitude() * 1E6);
-			int lng = (int) (location.getLongitude() * 1E6);
-			GeoPoint point = new GeoPoint(lat, lng);
-			createMarker();
-			mapController.animateTo(point); // mapController.setCenter(point);
+			//createMarker();
+			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
 //			
 //			makeUseOfNewLocation(location);
 
