@@ -4,7 +4,7 @@ public class Casino {
 
 	private String name;
 	private GeographicCoordinate position;
-	private OpeningHours openingHours;
+	private String openingHoursAsText;
 	private Owner owner;
 	private Runner runner;
 	
@@ -14,24 +14,21 @@ public class Casino {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public GeographicCoordinate getPosition() {
 		return position;
 	}
 	public void setPosition(GeographicCoordinate position) {
 		this.position = position;
 	}
-	public OpeningHours getOpeningHours() {
-		return openingHours;
-	}
-	public void setOpeningHours(OpeningHours openingHours) {
-		this.openingHours = openingHours;
-	}
+	
 	public Owner getOwner() {
 		return owner;
 	}
 	public void setOwner(Owner owner) {
 		this.owner = owner;
 	}
+	
 	public Runner getRunner() {
 		return runner;
 	}
@@ -39,22 +36,28 @@ public class Casino {
 		this.runner = runner;
 	}
 	
-	
+
+	public String getOpeningHoursAsText() {
+		return openingHoursAsText;
+	}
+	public void setOpeningHoursAsText(String openingHoursAsText) {
+		this.openingHoursAsText = openingHoursAsText;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((openingHours == null) ? 0 : openingHours.hashCode());
+		result = prime
+				* result
+				+ ((openingHoursAsText == null) ? 0 : openingHoursAsText
+						.hashCode());
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result
 				+ ((position == null) ? 0 : position.hashCode());
 		result = prime * result + ((runner == null) ? 0 : runner.hashCode());
 		return result;
 	}
-	
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,10 +72,10 @@ public class Casino {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (openingHours == null) {
-			if (other.openingHours != null)
+		if (openingHoursAsText == null) {
+			if (other.openingHoursAsText != null)
 				return false;
-		} else if (!openingHours.equals(other.openingHours))
+		} else if (!openingHoursAsText.equals(other.openingHoursAsText))
 			return false;
 		if (owner == null) {
 			if (other.owner != null)
@@ -91,7 +94,7 @@ public class Casino {
 			return false;
 		return true;
 	}
-	
+
 	
 
 }
