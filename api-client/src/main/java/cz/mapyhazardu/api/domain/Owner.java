@@ -9,5 +9,6 @@ public class Owner extends LegalPerson {
 		super(companyNumber);
 	}
 	
+	
 
 }
