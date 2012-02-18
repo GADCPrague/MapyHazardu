@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.actionbarcompat;
+package cz.mapyhazardu.android;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
