@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.actionbarcompat;
+package cz.mapyhazardu.android;
+
+import com.example.android.actionbarcompat.R;
 
 import android.os.Bundle;
 import android.view.Menu;

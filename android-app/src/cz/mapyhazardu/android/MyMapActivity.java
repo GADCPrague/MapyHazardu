@@ -1,7 +1,8 @@
-package com.example.android.actionbarcompat;
+package cz.mapyhazardu.android;
 
 import android.os.Bundle;
 
+import com.example.android.actionbarcompat.R;
 import com.google.android.maps.MapActivity;
 
 public class MyMapActivity extends MapActivity {
