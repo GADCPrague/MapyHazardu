@@ -14,11 +14,13 @@ repositories {
 
 
 dependencies {
-    groovy 'org.codehaus.groovy:groovy-all:1.8.4'
+    testCompile 'org.codehaus.groovy:groovy-all:1.8.4'
     compile 'commons-lang:commons-lang:2.6'
+	compile 'com.google.code.gson:gson:2.1'
+	compile 'commons-io:commons-io:2.1'
 	testCompile 'junit:junit:4.10'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-7'
+    gradleVersion = '1.0-milestone-4'
 }
