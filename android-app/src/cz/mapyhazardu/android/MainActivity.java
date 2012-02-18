@@ -17,7 +17,16 @@
 package cz.mapyhazardu.android;
 
 import com.example.android.actionbarcompat.R;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
 
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +36,11 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
     private boolean mAlternateTitle = false;
+
+	private MapController mapController;
+	private MapView mapView;
+	private LocationManager locationManager;
+	private CasinoOverlays itemizedoverlay;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +57,23 @@ public class MainActivity extends ActionBarActivity {
                 mAlternateTitle = !mAlternateTitle;
             }
         });
+        
+        MapView mapView = (MapView) findViewById(R.id.mapview);
+        
+		mapView.setBuiltInZoomControls(true);
+		mapView.setStreetView(true);
+		mapController = mapView.getController();
+		mapController.setZoom(14); // Zoon 1 is world view
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+				0, new GeoUpdateHandler());
+
+//		Drawable drawable = this.getResources().getDrawable(R.drawable.point);
+//		itemizedoverlay = new MyOverlays(drawable);
+//		createMarker();
+		
+
     }
 
     @Override
@@ -52,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Calling super after populating the menu is necessary here to ensure that the
         // action bar helpers have a chance to handle this event.
+        
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -84,5 +116,45 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public class GeoUpdateHandler implements LocationListener {
+
+		@Override
+		public void onLocationChanged(Location location) {
+			int lat = (int) (location.getLatitude() * 1E6);
+			int lng = (int) (location.getLongitude() * 1E6);
+			GeoPoint point = new GeoPoint(lat, lng);
+			createMarker();
+			mapController.animateTo(point); // mapController.setCenter(point);
+//			
+//			makeUseOfNewLocation(location);
+
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+	}
+
+	private void createMarker() {
+		GeoPoint p = mapView.getMapCenter();
+		OverlayItem overlayitem = new OverlayItem(p, "", "");
+		itemizedoverlay.addOverlay(overlayitem);
+		mapView.getOverlays().add(itemizedoverlay);
+	}
 
 }
