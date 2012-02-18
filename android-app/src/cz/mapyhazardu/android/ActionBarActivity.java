@@ -76,7 +76,7 @@ public abstract class ActionBarActivity extends FragmentActivity {
         return retValue;
     }
 
-    /**{@inheritDoc}*/
+    /**{@inheritDoc} */
     @Override
     protected void onTitleChanged(CharSequence title, int color) {
         mActionBarHelper.onTitleChanged(title, color);
