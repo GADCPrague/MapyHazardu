@@ -16,6 +16,8 @@
 
 package com.example.android.actionbarcompat;
 
+import com.google.android.maps.MapActivity;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
