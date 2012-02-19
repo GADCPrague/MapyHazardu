@@ -18,14 +18,15 @@
             <requestFocus />
         </EditText>
 
-        <EditText
+        <TextView
             android:id="@+id/location_geo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/location_geo"
             android:inputType="textMultiLine"
-            android:lines="5" >
-        </EditText>
+            android:lines="5"
+            android:visibility="gone" >
+        </TextView>
 
         <EditText
             android:id="@+id/location_photo"
@@ -74,7 +75,8 @@
             android:id="@+id/location_legal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/location_legal" >
+            android:text="@string/location_legal"
+            android:visibility="gone" >
         </CheckBox>
 
         <LinearLayout
