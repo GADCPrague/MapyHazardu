@@ -48,6 +48,8 @@ public class MainActivity extends ActionBarActivity {
 	private GeoUpdateHandler listener = new GeoUpdateHandler();
 
 	private GeoPoint geoPoint;
+	
+	private boolean currentPositionAcquired = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		currentPositionAcquired = false;
 		myLocationOverlay.enableMyLocation();
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
 	}
@@ -87,6 +90,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		currentPositionAcquired = false;
 		if (listener != null) {
 			locationManager.removeUpdates(listener);
 		}
@@ -141,9 +145,11 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
-
-			casinoOverlay.fetchCasinos(LocationUtils.getGeographicCoordinate(location));
+			if (!currentPositionAcquired) {
+				mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
+				currentPositionAcquired = true;
+				casinoOverlay.fetchCasinos(LocationUtils.getGeographicCoordinate(location));
+			}
 		}
 
 		@Override
