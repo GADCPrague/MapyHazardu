@@ -1,4 +1,5 @@
 package cz.mapyhazardu.api.impl;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -9,7 +10,6 @@ import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.GeographicCoordinate;
 import cz.mapyhazardu.api.domain.Owner;
 import cz.mapyhazardu.api.domain.Runner;
-import cz.mapyhazardu.api.impl.MapyHazarduImpl;
 
 
 public class MapyHazarduApiTest {
@@ -25,10 +25,16 @@ public class MapyHazarduApiTest {
 		List<Casino> nearestCasinos = 
 				api.findNearestCasinos(new GeographicCoordinate().setLatitude(49.470587).setLongtitude(17.9676526));
 		
-		Casino casino = new Casino();
-		casino.setPosition(new GeographicCoordinate().setLatitude(49.470587).setLongtitude(17.9676526));
+		List<Casino> right = new ArrayList<Casino>();
+		for(Casino c : nearestCasinos) {
+			
+			if (c.getPosition().equals(new GeographicCoordinate().setLatitude(49.470587).setLongtitude(17.9676526))) {
+				right.add(c);
+			}
+			
+		}
 		
-		Assert.assertTrue(nearestCasinos.contains(casino));
+		Assert.assertTrue("It seems it doesn't contains right data", right.size() > 0);
 		
 	}
 	
@@ -80,7 +86,7 @@ public class MapyHazarduApiTest {
 		casino.setOpeningHoursAsText("po-pa 8-20 so-ne 10-24");
 		casino.setOwner(new Owner("name of owner of casino"));
 		casino.setRunner(new Runner("name of runner of casino"));
-		GeographicCoordinate position = new GeographicCoordinate().setLatitude(34.44).setLongtitude(20.20);
+		GeographicCoordinate position = new GeographicCoordinate().setLatitude(49.467202).setLongtitude(17.9676215);
 		casino.setPosition(position);
 		
 		api.saveCasino(casino);

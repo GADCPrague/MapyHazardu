@@ -63,8 +63,7 @@ public class LocationActivity extends Activity {
 			casino.setRunner(new Runner(companyNumber));
 		}
 		
-		// FIXME: doplnit pozici, kterou si vybral
-//		casino.setPosition(position);
+		casino.setPosition(coordinate);
 		
 		try {
 			MapyHazarduServiceProvider.getService().saveCasino(casino);

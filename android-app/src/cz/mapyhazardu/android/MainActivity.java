@@ -29,6 +29,8 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
+
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -115,6 +117,8 @@ public class MainActivity extends ActionBarActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_refresh:
 			Toast.makeText(this, getResources().getString(R.string.message_refresh), Toast.LENGTH_SHORT).show();
+			GeoPoint geoPoint = mapView.getProjection().fromPixels(0, 0);
+			casinoOverlay.fetchCasinos(LocationUtils.getGeographicCoordinate(geoPoint));
 			break;
 		case R.id.menu_add:
 			Intent intent = new Intent(this, EditActivity.class);
