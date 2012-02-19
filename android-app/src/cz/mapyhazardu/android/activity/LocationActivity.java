@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import cz.mapyhazardu.android.R;
 
 import cz.mapyhazardu.android.MapyHazarduServiceProvider;
+import cz.mapyhazardu.android.R;
 import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.Owner;
 import cz.mapyhazardu.api.domain.Runner;
