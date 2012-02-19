@@ -50,35 +50,24 @@ public class MainActivity extends ActionBarActivity {
 
 //        setTitle(R.string.app_name);
         
-        MapView mapView = (MapView) findViewById(R.id.mapview);
-        
+        mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
 		mapController = mapView.getController();
 		mapController.setZoom(19); // Zoon 1 is world view
+		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
+		
 		listener = new GeoUpdateHandler();
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, listener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
 
 			         
 		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this);
-//		mapView.getOverlays().add(casinoOverlay);
-
-//			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
-//			        CustomItemizedOverlay itemizedOverlay =
-//			             new CustomItemizedOverlay(drawable, this);
-//			         
-//			        OverlayItem overlayitem =
-//			             new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
-//			         
-//			        itemizedOverlay.addOverlay(overlayitem);
-//			        mapOverlays.add(itemizedOverlay);
-
+		mapView.getOverlays().add(casinoOverlay);
+		
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
-		// add this overlay to the MapView and refresh it
         mapView.getOverlays().add(myLocationOverlay);
         mapView.postInvalidate();		
     }
@@ -118,13 +107,13 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
-            	Toast.makeText(this, "Prob√≠h√° aktualizace lokac√≠.", Toast.LENGTH_SHORT).show();
+            	Toast.makeText(this, "ProbÌh· aktualizace lokacÌ.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_add:               
     			Intent intent = new Intent("cz.mapyhazardu.android.activity.EDIT");
     			startActivity(intent);
                 
-                Toast.makeText(this, "Vyznaƒçte novou lokaci kliknut√≠m v mapƒõ a potvrƒète.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "VyznaËte novou lokaci kliknutÌm v mapÏ a potvrÔte.", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -132,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
     
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -144,13 +132,9 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			//createMarker();
 			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
-//			
+
 			fetchCasinos(location);
-//			makeUseOfNewLocation(location);
-
-
 		}
 
 		@Override
