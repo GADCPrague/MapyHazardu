@@ -116,6 +116,27 @@ public class MapyHazarduApiTest {
 		
 	}
 	
+	@Test
+	public void save_casino_is_successfull_2() {
+		
+		MapyHazardu api = getMapyHazarduService();
+		Casino casino = new Casino();
+		casino.setName("kasino");
+		casino.setOpeningHoursAsText("8-23");
+		GeographicCoordinate position = new GeographicCoordinate().setLatitude(34.44).setLongtitude(20.20);
+		casino.setPosition(position);
+		
+		List<Casino> casinos = api.findNearestCasinos(position);
+		int countOfCasinosBeforeSave = casinos.size();
+		
+		api.saveCasino(casino);
+		
+		List<Casino> casinosAfterSave = api.findNearestCasinos(position);
+		
+		Assert.assertTrue(casinosAfterSave.size() > countOfCasinosBeforeSave);
+		
+	}
+	
 	
 	private MapyHazarduImpl getMapyHazarduService() {
 		return new MapyHazarduImpl(System.getProperty("api_url", LOCAL_MOCK_API_URL /* as default */));

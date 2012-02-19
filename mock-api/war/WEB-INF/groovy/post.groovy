@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurper;
 import javax.servlet.http.HttpServletResponse;
-
+import com.google.appengine.api.datastore.Entity
 
 def dataParam = params.get("data")
 log.info("Param: " + dataParam)
