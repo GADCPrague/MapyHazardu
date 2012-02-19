@@ -22,4 +22,15 @@ public class LocationUtils {
 		GeoPoint point = new GeoPoint(lat, lng);
 		return point;
 	}
+
+	public static GeographicCoordinate getGeographicCoordinate(Location location) {
+		return new GeographicCoordinate(location.getLatitude(), location.getLongitude());
+	}
+	
+	public static GeographicCoordinate getGeographicCoordinate(GeoPoint geoPoint) {
+		double lat = ((double) geoPoint.getLatitudeE6()) / 1E6;
+		double lng = ((double) geoPoint.getLongitudeE6()) / 1E6;
+		return new GeographicCoordinate(lat, lng);
+	}
+	
 }
