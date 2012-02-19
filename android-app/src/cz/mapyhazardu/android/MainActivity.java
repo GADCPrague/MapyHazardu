@@ -28,7 +28,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import com.example.android.actionbarcompat.R;
+import cz.mapyhazardu.android.R;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
 			         
-		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this, mapView);
+		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.casino_icon), this, mapView);
 		mapView.getOverlays().add(casinoOverlay);
 		
 		myLocationOverlay = new MyLocationOverlay(this, mapView);

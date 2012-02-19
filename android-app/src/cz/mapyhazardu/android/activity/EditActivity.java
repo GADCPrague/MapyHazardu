@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
-import com.example.android.actionbarcompat.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -20,10 +19,13 @@ import com.google.android.maps.OverlayItem;
 import cz.mapyhazardu.android.ActionBarActivity;
 import cz.mapyhazardu.android.LocationOverlay;
 import cz.mapyhazardu.android.LocationUtils;
+import cz.mapyhazardu.android.R;
 
 public class EditActivity extends ActionBarActivity {
 
 	private MapView mapView;
+
+	private GeoPoint geoPoint;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,8 +43,10 @@ public class EditActivity extends ActionBarActivity {
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
 		LocationOverlay locationOverlay = new LocationOverlay(getResources().getDrawable(R.drawable.ic_menu_position));
-		OverlayItem overlayitem = new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), getResources().getString(R.string.message_your_current_loc),
-				getResources().getString(R.string.message_confirm_new_loc));
+
+		geoPoint = LocationUtils.getGeoPoint(lastKnownLocation);
+		OverlayItem overlayitem = new OverlayItem(geoPoint, getResources().getString(R.string.message_your_current_loc), getResources().getString(
+				R.string.message_confirm_new_loc));
 		locationOverlay.addOverlay(overlayitem);
 		mapView.getOverlays().add(locationOverlay);
 
@@ -63,7 +67,11 @@ public class EditActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_ok:
-			Intent intent = new Intent("cz.mapyhazardu.android.activity.LOCATION");
+			Intent intent = new Intent(this, LocationActivity.class);
+			if (geoPoint != null) {
+				intent.putExtra(LocationActivity.GEO_POINT_LATITUDE, geoPoint.getLatitudeE6());
+				intent.putExtra(LocationActivity.GEO_POINT_LONGITUDE, geoPoint.getLongitudeE6());
+			}
 			startActivity(intent);
 			break;
 		case R.id.menu_cancel:
@@ -78,7 +86,7 @@ public class EditActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	class MapOverlay extends Overlay {
 
 		@Override
@@ -86,8 +94,8 @@ public class EditActivity extends ActionBarActivity {
 			if (event.getAction() == 1) {
 				mapView.getOverlays().clear();
 				mapView.postInvalidate();
-				
-				GeoPoint geoPoint = mapview.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+
+				geoPoint = mapview.getProjection().fromPixels((int) event.getX(), (int) event.getY());
 				// Toast.makeText(getBaseContext(), geoPoint.getLatitudeE6() /
 				// 1E6 + "," + geoPoint.getLongitudeE6() / 1E6,
 				// Toast.LENGTH_SHORT).show();
@@ -97,7 +105,7 @@ public class EditActivity extends ActionBarActivity {
 						R.string.message_confirm_new_loc));
 				locationOverlay.addOverlay(overlayitem);
 				mapView.getOverlays().add(locationOverlay);
-				
+
 				MapOverlay mapOverlay = new MapOverlay();
 				mapView.getOverlays().add(mapOverlay);
 
