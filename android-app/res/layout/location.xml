@@ -70,19 +70,19 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/location_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="sendFeedback"
-                android:text="@string/location_button" >
-            </Button>
-
-            <Button
                 android:id="@+id/cancel_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="cancelFeedback"
                 android:text="@string/menu_cancel" >
+            </Button>
+
+            <Button
+                android:id="@+id/location_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="sendFeedback"
+                android:text="@string/location_button" >
             </Button>
         </LinearLayout>
     </LinearLayout>
