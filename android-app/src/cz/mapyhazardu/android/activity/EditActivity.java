@@ -38,13 +38,19 @@ public class EditActivity extends ActionBarActivity {
 		MapController mapController = mapView.getController();
 		mapController.setZoom(19);
 
-		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			int latitude = bundle.getInt(LocationActivity.GEO_POINT_LATITUDE);
+			int longitude = bundle.getInt(LocationActivity.GEO_POINT_LONGITUDE);
+			geoPoint = new GeoPoint(latitude, longitude);
+		} else {
+			LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			geoPoint = LocationUtils.getGeoPoint(lastKnownLocation);
+		}
+		mapController.setCenter(geoPoint);
 
 		LocationOverlay locationOverlay = new LocationOverlay(getResources().getDrawable(R.drawable.ic_menu_position));
-
-		geoPoint = LocationUtils.getGeoPoint(lastKnownLocation);
 		OverlayItem overlayitem = new OverlayItem(geoPoint, getResources().getString(R.string.message_your_current_loc), getResources().getString(
 				R.string.message_confirm_new_loc));
 		locationOverlay.addOverlay(overlayitem);
@@ -91,7 +97,8 @@ public class EditActivity extends ActionBarActivity {
 
 		@Override
 		public boolean onTouchEvent(MotionEvent event, MapView mapview) {
-			if (event.getAction() == 1) {
+
+			if ((event.getAction() == MotionEvent.ACTION_DOWN) || (event.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
 				mapView.getOverlays().clear();
 				mapView.postInvalidate();
 
@@ -110,10 +117,13 @@ public class EditActivity extends ActionBarActivity {
 				mapView.getOverlays().add(mapOverlay);
 
 				mapView.postInvalidate();
+			} else {
+
 			}
 
-			return true;
+			return false;
 		}
+
 	}
 
 }
