@@ -19,7 +19,7 @@ public class MapyHazarduApiTest {
 	
 
 	@Test
-	public void find_nearest_casinos_should_return_right_values() {
+	public void find_nearest_casinos_should_return_right_casinos() {
 		
 		MapyHazardu api = getMapyHazarduService();
 		List<Casino> nearestCasinos = 
@@ -33,7 +33,7 @@ public class MapyHazarduApiTest {
 	}
 	
 	@Test
-	public void find_nearest_casinos_should_return_right_values2() {
+	public void find_nearest_casinos_should_return_right_name() {
 		
 		MapyHazardu api = getMapyHazarduService();
 		List<Casino> nearestCasinos = 
