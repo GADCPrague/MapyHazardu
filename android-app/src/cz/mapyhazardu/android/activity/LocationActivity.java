@@ -18,4 +18,8 @@ public class LocationActivity extends Activity {
 		finish();
 	}
 
+	public void cancelFeedback(View button) {
+		finish();
+	}
+
 }
