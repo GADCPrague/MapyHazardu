@@ -5,18 +5,18 @@ package cz.mapyhazardu.android.task;
 
 import java.util.List;
 
-import android.location.Location;
-import android.os.AsyncTask;
-
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import cz.mapyhazardu.android.CasinoOverlay;
 import cz.mapyhazardu.android.LocationUtils;
 import cz.mapyhazardu.api.MapyHazardu;
+import cz.mapyhazardu.api.MapyHazarduMock;
 import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.GeographicCoordinate;
 import cz.mapyhazardu.api.impl.MapyHazarduImpl;
+import android.location.Location;
+import android.os.AsyncTask;
 
 /**
  * @author vlasta
@@ -46,14 +46,15 @@ public class FetchCasinosTask extends AsyncTask<android.location.Location, Integ
 	@Override
 	protected void onPostExecute(List<Casino> result) {
 		for (Casino casino : result) {
-			casinoOverlay.addOverlay(new OverlayItem(LocationUtils.getGeoPoint(casino.getPosition()), casino.getName(), ""));
+			casinoOverlay.addCasino(casino);
 		}
 		
-		mapView.postInvalidate();
+//		mapView.invalidate();
+//		mapView.postInvalidate();
 	}
 
 	public MapyHazardu getService() {
-//		return new MapyHazarduMock();
-		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
+		return new MapyHazarduMock();
+//		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
 	}
 }
