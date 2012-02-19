@@ -31,15 +31,23 @@ def entities = preparedQuery.asList(withLimit(1000))
 entities.each { entity ->
 	
 	/* is in geocoordinate bounds */
-	def lngRange = ((lng - 0.004d)..(lng + 0.004d))
-	def latRange = ((lat - 0.004d)..(lat + 0.004d))
+	def lngRange = (((lng as double) - 0.004d)..((lng as double) + 0.004d))
+	def latRange = (((lat as double)- 0.004d)..((lat as double) + 0.004d))
 	
-	if (latRange.containsWithinBounds(entity.latitude)
-			&& lngRange.containsWithinBounds(entity.longitude)) {
 	
-			log.info("entity added to results as it is in boundary")
-			apiResult << [title: entity.nazev, position: [entity.longitude, entity.latitude]]
+	if (entity.latitude != null && entity.longitude != null) {
+		
+		def latitude = entity.latitude as double
+		def longitude = entity.longitude as double
+		if (latRange.containsWithinBounds(latitude)
+				&& lngRange.containsWithinBounds(longitude)) {
+		
+				log.info("entity added to results as it is in boundary")
+				apiResult << [title: entity.nazev ?: "", position: [longitude, latitude]]
+		}
+				
 	}
+	
 	
 }
 
