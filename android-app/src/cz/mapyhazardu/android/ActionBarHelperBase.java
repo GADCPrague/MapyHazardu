@@ -19,7 +19,7 @@ package cz.mapyhazardu.android;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.example.android.actionbarcompat.R;
+import cz.mapyhazardu.android.R;
 
 import android.app.Activity;
 import android.content.Context;

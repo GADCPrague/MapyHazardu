@@ -58,6 +58,7 @@ public class MapyHazarduImpl implements MapyHazardu {
 				Double longitude = positionTuple[0];
 				Double latitude = positionTuple[1];
 				casino.setPosition(new GeographicCoordinate().setLatitude(latitude).setLongtitude(longitude));
+				casino.setName(result.getTitle());
 				
 				casinos.add(casino);	
 			}
