@@ -10,6 +10,7 @@ import com.google.android.maps.MapView;
 import android.os.AsyncTask;
 import android.util.Log;
 import cz.mapyhazardu.android.CasinoOverlay;
+import cz.mapyhazardu.android.MapyHazarduServiceProvider;
 import cz.mapyhazardu.api.MapyHazardu;
 import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.GeographicCoordinate;
@@ -36,7 +37,7 @@ public class FetchCasinosTask extends AsyncTask<GeographicCoordinate, Integer, L
 		GeographicCoordinate position = param[0];
 		
 		Log.i(TAG, "Loading casino list");
-		List<Casino> casinos = getService().findNearestCasinos(position);
+		List<Casino> casinos = MapyHazarduServiceProvider.getService().findNearestCasinos(position);
 		
 		return casinos;
 	}
@@ -50,10 +51,5 @@ public class FetchCasinosTask extends AsyncTask<GeographicCoordinate, Integer, L
 		}
 		
 		mapView.postInvalidate();
-	}
-
-	public MapyHazardu getService() {
-//		return new MapyHazarduMock();
-		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
 	}
 }

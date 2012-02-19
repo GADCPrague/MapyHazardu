@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
 			         
-		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this, mapView);
+		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.casino_icon), this, mapView);
 		mapView.getOverlays().add(casinoOverlay);
 		
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
