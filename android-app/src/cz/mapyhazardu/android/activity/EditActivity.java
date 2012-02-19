@@ -36,7 +36,9 @@ public class EditActivity extends ActionBarActivity {
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
 		LocationOverlay locationOverlay = new LocationOverlay(getResources().getDrawable(R.drawable.ic_menu_position));
-		OverlayItem overlayitem = new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Vaše aktuální poloha", "Potvrďte novou pozici v horním menu.");
+		OverlayItem overlayitem = new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), 
+				getResources().getString(R.string.message_your_current_loc), 
+				getResources().getString(R.string.message_confirm_new_loc));
 		locationOverlay.addOverlay(overlayitem);
 		mapView.getOverlays().add(locationOverlay);
 
