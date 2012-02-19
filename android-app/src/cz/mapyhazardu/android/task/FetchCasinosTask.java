@@ -46,14 +46,15 @@ public class FetchCasinosTask extends AsyncTask<android.location.Location, Integ
 	@Override
 	protected void onPostExecute(List<Casino> result) {
 		for (Casino casino : result) {
-			casinoOverlay.addOverlay(new OverlayItem(LocationUtils.getGeoPoint(casino.getPosition()), casino.getName(), ""));
+			casinoOverlay.addCasino(casino);
 		}
 		
-		mapView.postInvalidate();
+//		mapView.invalidate();
+//		mapView.postInvalidate();
 	}
 
 	public MapyHazardu getService() {
-//		return new MapyHazarduMock();
-		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
+		return new MapyHazarduMock();
+//		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
 	}
 }

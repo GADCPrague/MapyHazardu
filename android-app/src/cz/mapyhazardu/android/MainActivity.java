@@ -27,13 +27,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android.actionbarcompat.R;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.OverlayItem;
 
-import cz.mapyhazardu.android.MainActivity.GeoUpdateHandler;
 import cz.mapyhazardu.android.task.FetchCasinosTask;
 
 public class MainActivity extends ActionBarActivity {
@@ -52,38 +49,24 @@ public class MainActivity extends ActionBarActivity {
 
         setTitle(R.string.app_name);
         
-        MapView mapView = (MapView) findViewById(R.id.mapview);
-        
+        mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
 		mapController = mapView.getController();
 		mapController.setZoom(19); // Zoon 1 is world view
+		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
+		
 		listener = new GeoUpdateHandler();
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, listener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
 
 			         
 		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this);
-        
-//			        List<Overlay> mapOverlays = mapView.getOverlays();
-//			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
-//			        CustomItemizedOverlay itemizedOverlay =
-//			             new CustomItemizedOverlay(drawable, this);
-//			         
-//			        OverlayItem overlayitem =
-//			             new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
-//			         
-//			        itemizedOverlay.addOverlay(overlayitem);
-//			        mapOverlays.add(itemizedOverlay);
-			         
-			         
-
-
+		mapView.getOverlays().add(casinoOverlay);
+		
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
-		// add this overlay to the MapView and refresh it
         mapView.getOverlays().add(myLocationOverlay);
         mapView.postInvalidate();		
     }
@@ -151,7 +134,6 @@ public class MainActivity extends ActionBarActivity {
     
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -163,13 +145,9 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			//createMarker();
 			mapController.animateTo(LocationUtils.getGeoPoint(location)); // mapController.setCenter(point);
-//			
+
 			fetchCasinos(location);
-//			makeUseOfNewLocation(location);
-
-
 		}
 
 		@Override
