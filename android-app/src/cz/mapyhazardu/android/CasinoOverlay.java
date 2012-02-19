@@ -24,6 +24,7 @@ public class CasinoOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private CasinoOverlay(Drawable defaultMarker) {
 		super(boundCenterBottom(defaultMarker));
+		this.populate();
 	}
 
 	public CasinoOverlay(Drawable defaultMarker, Context context) {
@@ -62,7 +63,6 @@ public class CasinoOverlay extends ItemizedOverlay<OverlayItem> {
 	
 	private void addOverlay(OverlayItem overlay) {
 		mapOverlays.add(overlay);
-		this.populate();
 	}
 
 }
