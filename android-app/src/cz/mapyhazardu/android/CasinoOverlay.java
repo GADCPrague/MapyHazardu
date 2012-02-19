@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -30,16 +31,24 @@ public class CasinoOverlay extends ItemizedOverlay<OverlayItem> {
 	private Set<GeographicCoordinate> coordinates = new HashSet<GeographicCoordinate>();
 	private final Context context;
 	private final MapView mapView;
+	private final Set<Casino> casinosCache;
 	
 	private static GeoPoint lastPosition = new GeoPoint(0, 0);
     private static GeoPoint currentPosition;
     protected boolean isMapMoving = false;
+    
 
 	public CasinoOverlay(Drawable defaultMarker, Context context, MapView mapView) {
 		super(boundCenterBottom(defaultMarker));
 
 		this.context = context;
 		this.mapView = mapView;
+		this.casinosCache = getCasinosCache();
+		
+		for (Casino casino : casinosCache) {
+			addOverlay(new OverlayItem(LocationUtils.getGeoPoint(casino.getPosition()), casino.getName(), ""));
+		}
+		
 		populate();
 	}
 
@@ -65,12 +74,18 @@ public class CasinoOverlay extends ItemizedOverlay<OverlayItem> {
 	}
 
 	public void addCasino(Casino casino) {
-		GeographicCoordinate casinoCoordinate = casino.getPosition();
-		
-		if (!coordinates.contains(casinoCoordinate)) {
+		if (!casinosCache.contains(casino)) {
+			GeographicCoordinate casinoCoordinate = casino.getPosition();
 			addOverlay(new OverlayItem(LocationUtils.getGeoPoint(casinoCoordinate), casino.getName(), ""));
-			coordinates.add(casinoCoordinate);
+//			coordinates.add(casinoCoordinate);
+			
+			casinosCache.add(casino);
 		}
+	}
+	
+	private Set<Casino> getCasinosCache() {
+		MapyHazarduApplication application = (MapyHazarduApplication) ((Activity) context).getApplication();
+		return application.getCasinosCache();
 	}
 	
 	private void addOverlay(OverlayItem overlay) {
