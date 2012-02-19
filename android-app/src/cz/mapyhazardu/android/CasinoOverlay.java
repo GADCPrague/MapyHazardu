@@ -56,6 +56,7 @@ public class CasinoOverlay extends ItemizedOverlay<OverlayItem> {
 		
 		if (!coordinates.contains(casinoCoordinate)) {
 			addOverlay(new OverlayItem(LocationUtils.getGeoPoint(casinoCoordinate), casino.getName(), ""));
+			coordinates.add(casinoCoordinate);
 		}
 	}
 	

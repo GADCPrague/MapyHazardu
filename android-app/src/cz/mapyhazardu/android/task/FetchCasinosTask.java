@@ -54,7 +54,7 @@ public class FetchCasinosTask extends AsyncTask<android.location.Location, Integ
 	}
 
 	public MapyHazardu getService() {
-		return new MapyHazarduMock();
-//		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
+//		return new MapyHazarduMock();
+		return new MapyHazarduImpl("http://stophazardu.appspot.com/api");
 	}
 }
