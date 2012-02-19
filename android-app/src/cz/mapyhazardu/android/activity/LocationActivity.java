@@ -3,13 +3,16 @@ package cz.mapyhazardu.android.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
-import cz.mapyhazardu.android.MapyHazarduServiceProvider;
+
 import cz.mapyhazardu.android.LocationUtils;
+import cz.mapyhazardu.android.MapyHazarduServiceProvider;
 import cz.mapyhazardu.android.R;
+import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.GeographicCoordinate;
 import cz.mapyhazardu.api.domain.Owner;
 import cz.mapyhazardu.api.domain.Runner;
@@ -60,8 +63,7 @@ public class LocationActivity extends Activity {
 			casino.setRunner(new Runner(companyNumber));
 		}
 		
-		// FIXME: doplnit pozici, kterou si vybral
-//		casino.setPosition(position);
+		casino.setPosition(coordinate);
 		
 		try {
 			MapyHazarduServiceProvider.getService().saveCasino(casino);
