@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/location_name"
             android:inputType="text" >
+            <requestFocus />
         </EditText>
 
         <EditText
@@ -33,14 +34,25 @@
             android:hint="@string/location_photo"
             android:inputType="text" >
         </EditText>
-
-        <EditText
-            android:id="@+id/location_hours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/location_hours"
-            android:inputType="text" >
-        </EditText>
+		<LinearLayout 
+		    android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        <EditText
+	            android:id="@+id/location_hours_from"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:hint="@string/location_hours"
+	            android:inputType="text|time" >
+	        </EditText>
+	        <EditText
+	            android:id="@+id/location_hours_to"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:hint="@string/location_hours"
+	            android:inputType="text|time" >
+	        </EditText>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/location_provider"

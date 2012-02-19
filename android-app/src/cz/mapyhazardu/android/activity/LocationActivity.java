@@ -23,13 +23,15 @@ public class LocationActivity extends Activity {
 
 	public void sendFeedback(View button) {
 		EditText textName = (EditText) findViewById(R.id.location_name);
-		EditText textHours = (EditText) findViewById(R.id.location_hours);
+		EditText textHoursFrom = (EditText) findViewById(R.id.location_hours_from);
+		EditText textHoursTo = (EditText) findViewById(R.id.location_hours_to);
 		EditText textOwner = (EditText) findViewById(R.id.location_owner);
 		EditText textProvider = (EditText) findViewById(R.id.location_provider);
 		
 		Casino casino = new Casino();
 		casino.setName(textName.getText().toString());
-		casino.setOpeningHoursAsText(textHours.getText().toString());
+		casino.setOpeningHoursAsText(
+				String.format("%s - %s", textHoursFrom.getText().toString(), textHoursTo.getText().toString()));
 		
 		String companyNumber = textOwner.getText().toString();
 		if (companyNumber != null) {
