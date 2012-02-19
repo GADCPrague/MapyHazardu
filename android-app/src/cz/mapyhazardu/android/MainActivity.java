@@ -107,13 +107,13 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
-            	Toast.makeText(this, "ProbÌh· aktualizace lokacÌ.", Toast.LENGTH_SHORT).show();
+            	Toast.makeText(this, "Prob√≠h√° aktualizace.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_add:               
     			Intent intent = new Intent("cz.mapyhazardu.android.activity.EDIT");
     			startActivity(intent);
                 
-                Toast.makeText(this, "VyznaËte novou lokaci kliknutÌm v mapÏ a potvrÔte.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Vyznaƒçte novou lokaci kliknut√≠m v mapƒõ a potvrƒète.", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

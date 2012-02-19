@@ -15,7 +15,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import cz.mapyhazardu.android.ActionBarActivity;
-import cz.mapyhazardu.android.CasinoOverlay;
+import cz.mapyhazardu.android.LocationOverlay;
 import cz.mapyhazardu.android.LocationUtils;
 
 public class EditActivity extends ActionBarActivity {
@@ -35,10 +35,10 @@ public class EditActivity extends ActionBarActivity {
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
-		CasinoOverlay casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_menu_position), this);
-		OverlayItem overlayitem = new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
-		casinoOverlay.addOverlay(overlayitem);
-		mapView.getOverlays().add(casinoOverlay);
+		LocationOverlay locationOverlay = new LocationOverlay(getResources().getDrawable(R.drawable.ic_menu_position));
+		OverlayItem overlayitem = new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Vaše aktuální poloha", "Potvrďte novou pozici v horním menu.");
+		locationOverlay.addOverlay(overlayitem);
+		mapView.getOverlays().add(locationOverlay);
 
 		mapView.postInvalidate();
 	}
