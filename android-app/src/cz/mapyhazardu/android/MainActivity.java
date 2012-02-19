@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
 	private CasinoOverlay casinoOverlay;
 
 	private MyLocationOverlay myLocationOverlay;
-	private GeoUpdateHandler listener;
+	private GeoUpdateHandler listener = new GeoUpdateHandler();;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +59,6 @@ public class MainActivity extends ActionBarActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
-		listener = new GeoUpdateHandler();
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, listener);
 
 			         
 		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this);
@@ -87,19 +84,20 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
             super.onResume();
             myLocationOverlay.enableMyLocation();
+    		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, listener);
     }
 
     @Override
     protected void onPause() {
             super.onPause();
+        	if (listener != null) {
+        		locationManager.removeUpdates(listener);
+        	}
             myLocationOverlay.disableMyLocation();
     }
     
     @Override
     protected void onStop() {
-    	if (listener != null) {
-    		locationManager.removeUpdates(listener);
-    	}
     	super.onStop();
     }
 
