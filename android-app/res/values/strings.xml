@@ -15,7 +15,8 @@
     <string name="location_owner">Majitel</string>
     <string name="location_legal">Legální</string>
     <string name="location_button">Zaznamenat polohu</string>
-    
+    <string name="message_refresh">Probíhá aktualizace lokací</string>
+    <string name="message_add_new_loc">Vyznačte novou lokaci kliknutím v mapě a potvrďte ji v horním menu</string>
     <string name="message_your_current_loc">Vaše aktuální poloha</string>
     <string name="message_confirm_new_loc">Potvrďte novou pozici v horním menu</string>
 

@@ -7,7 +7,7 @@
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="00ji0bed9dNfjDxdPa1lbpO838p3zQrzW1uZMXw"
+        android:apiKey="0GklMlFMzKwY2765vP0eLU1c49oAdJ5C_eTdCFg"
         android:clickable="true" />
 
 </merge>
