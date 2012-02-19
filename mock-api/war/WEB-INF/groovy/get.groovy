@@ -1,4 +1,8 @@
+import java.util.logging.Logger;
+
 import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.datastore.*
+import static com.google.appengine.api.datastore.FetchOptions.Builder.*
 
 import groovy.json.*
 
@@ -19,9 +23,29 @@ def apiResult = parse.parseText(mapyHazarduNearestCasinosJsonResponse);
 
 /* obtain data */
 
+def query = new Query("Casino")
+def preparedQuery = datastore.prepare(query)
+def entities = preparedQuery.asList(withLimit(1000))
 
+
+entities.each { entity ->
+	
+	/* is in geocoordinate bounds */
+	def lngRange = ((lng - 0.004d)..(lng + 0.004d))
+	def latRange = ((lat - 0.004d)..(lat + 0.004d))
+	
+	if (latRange.containsWithinBounds(entity.latitude)
+			&& lngRange.containsWithinBounds(entity.longitude)) {
+	
+			log.info("entity added to results as it is in boundary")
+			apiResult << [title: entity.nazev, position: [entity.longitude, entity.latitude]]
+	}
+	
+}
+
+def jsonOutput = new JsonOutput()
 def mergedJsonResult = new JsonOutput().toJson(apiResult)
 
 /* write it back to client */
 response.contentType = "application/json"
-response.writer.write(mergedJsonResult)
+response.writer.write(jsonOutput.prettyPrint(mergedJsonResult))
