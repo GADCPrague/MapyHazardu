@@ -16,7 +16,7 @@
 
 package cz.mapyhazardu.android;
 
-import com.example.android.actionbarcompat.R;
+import cz.mapyhazardu.android.R;
 
 import android.app.Activity;
 import android.os.Build;

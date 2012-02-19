@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.android.actionbarcompat.R;
+import cz.mapyhazardu.android.R;
 
 public class LocationActivity extends Activity {
 
