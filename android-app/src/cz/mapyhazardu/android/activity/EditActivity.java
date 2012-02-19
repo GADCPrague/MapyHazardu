@@ -1,6 +1,9 @@
 package cz.mapyhazardu.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,8 +12,11 @@ import android.view.MenuItem;
 import com.example.android.actionbarcompat.R;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
 
 import cz.mapyhazardu.android.ActionBarActivity;
+import cz.mapyhazardu.android.CasinoOverlay;
+import cz.mapyhazardu.android.LocationUtils;
 
 public class EditActivity extends ActionBarActivity {
 
@@ -24,6 +30,17 @@ public class EditActivity extends ActionBarActivity {
 
 		MapController mapController = mapView.getController();
 		mapController.setZoom(19);
+
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
+
+		CasinoOverlay casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_menu_position), this);
+		OverlayItem overlayitem = new OverlayItem(LocationUtils.getGeoPoint(lastKnownLocation), "Hello", "I'm in HUB!");
+		casinoOverlay.addOverlay(overlayitem);
+		mapView.getOverlays().add(casinoOverlay);
+
+		mapView.postInvalidate();
 	}
 
 	@Override

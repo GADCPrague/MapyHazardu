@@ -13,7 +13,7 @@
     </style>
 
     <style name="ActionBarCompat">
-        <item name="android:background">#eee</item>
+        <item name="android:background">@color/actionbar_bar_color</item>
     </style>
 
     <style name="ActionBarCompatItemBase">
