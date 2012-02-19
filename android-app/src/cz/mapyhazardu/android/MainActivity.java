@@ -17,6 +17,7 @@
 package cz.mapyhazardu.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,13 +28,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android.actionbarcompat.R;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.OverlayItem;
 
-import cz.mapyhazardu.android.MainActivity.GeoUpdateHandler;
 import cz.mapyhazardu.android.task.FetchCasinosTask;
 
 public class MainActivity extends ActionBarActivity {
@@ -50,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        setTitle(R.string.app_name);
+//        setTitle(R.string.app_name);
         
         MapView mapView = (MapView) findViewById(R.id.mapview);
         
@@ -67,8 +65,8 @@ public class MainActivity extends ActionBarActivity {
 
 			         
 		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.ic_launcher), this);
-        
-//			        List<Overlay> mapOverlays = mapView.getOverlays();
+//		mapView.getOverlays().add(casinoOverlay);
+
 //			        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
 //			        CustomItemizedOverlay itemizedOverlay =
 //			             new CustomItemizedOverlay(drawable, this);
@@ -78,9 +76,6 @@ public class MainActivity extends ActionBarActivity {
 //			         
 //			        itemizedOverlay.addOverlay(overlayitem);
 //			        mapOverlays.add(itemizedOverlay);
-			         
-			         
-
 
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
 		// add this overlay to the MapView and refresh it
@@ -111,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main, menu);
+        menuInflater.inflate(R.menu.main_base, menu);
 
         // Calling super after populating the menu is necessary here to ensure that the
         // action bar helpers have a chance to handle this event.
@@ -122,28 +117,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
-                break;
-
             case R.id.menu_refresh:
-                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
-                getActionBarHelper().setRefreshActionItemState(true);
-                getWindow().getDecorView().postDelayed(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                getActionBarHelper().setRefreshActionItemState(false);
-                            }
-                        }, 1000);
+            	Toast.makeText(this, "Probíhá aktualizace lokací.", Toast.LENGTH_SHORT).show();
                 break;
-
-            case R.id.menu_search:
-                Toast.makeText(this, "Tapped search", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.menu_share:
-                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
+            case R.id.menu_add:               
+    			Intent intent = new Intent("cz.mapyhazardu.android.activity.EDIT");
+    			startActivity(intent);
+                
+                Toast.makeText(this, "Vyznačte novou lokaci kliknutím v mapě a potvrďte.", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

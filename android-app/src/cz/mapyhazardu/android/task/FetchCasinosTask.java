@@ -5,18 +5,18 @@ package cz.mapyhazardu.android.task;
 
 import java.util.List;
 
+import android.location.Location;
+import android.os.AsyncTask;
+
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import cz.mapyhazardu.android.CasinoOverlay;
 import cz.mapyhazardu.android.LocationUtils;
 import cz.mapyhazardu.api.MapyHazardu;
-import cz.mapyhazardu.api.MapyHazarduMock;
 import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.GeographicCoordinate;
 import cz.mapyhazardu.api.impl.MapyHazarduImpl;
-import android.location.Location;
-import android.os.AsyncTask;
 
 /**
  * @author vlasta
