@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
-import com.example.android.actionbarcompat.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -20,6 +19,7 @@ import com.google.android.maps.OverlayItem;
 import cz.mapyhazardu.android.ActionBarActivity;
 import cz.mapyhazardu.android.LocationOverlay;
 import cz.mapyhazardu.android.LocationUtils;
+import cz.mapyhazardu.android.R;
 
 public class EditActivity extends ActionBarActivity {
 
