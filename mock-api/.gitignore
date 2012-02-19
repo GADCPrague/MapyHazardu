@@ -3,4 +3,4 @@
 .project
 .settings
 *.class
-appengine-generated/*
+/war/WEB-INF/appengine-generated
