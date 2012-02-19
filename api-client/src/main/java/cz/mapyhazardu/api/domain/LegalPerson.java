@@ -5,6 +5,11 @@ public class LegalPerson {
 	private String companyNumber;
 
 	public LegalPerson(String companyNumber) {
+		
+		if (companyNumber == null) {
+			throw new IllegalArgumentException("You have to set company number");
+		}
+		
 		this.companyNumber = companyNumber;
 	}
 	

@@ -9,11 +9,11 @@ public class GeographicCoordinate {
 	public GeographicCoordinate() {
 	}
 	
-	public GeographicCoordinate(double latitude, double longtitude) {
+	public GeographicCoordinate(double latitude, double longitude) {
 		this.latitude = latitude;
-		this.longtitude = longtitude;
+		this.longtitude = longitude;
 	}
-
+	
 	public double getLatitude() {
 		return latitude;
 	}

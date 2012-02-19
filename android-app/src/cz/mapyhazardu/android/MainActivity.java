@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.example.android.actionbarcompat.R;
@@ -64,6 +65,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
         mapView.getOverlays().add(myLocationOverlay);
+
         mapView.postInvalidate();		
     }
     
@@ -99,21 +101,21 @@ public class MainActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh:
-            	Toast.makeText(this, "Probíhá aktualizace lokací.", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.menu_add:               
-    			Intent intent = new Intent("cz.mapyhazardu.android.activity.EDIT");
-    			startActivity(intent);
-                
-                Toast.makeText(this, "Vyznaète novou lokaci kliknutím v mapì a potvrïte.", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_refresh:
+			Toast.makeText(this, getResources().getString(R.string.message_refresh), Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.menu_add:
+			Intent intent = new Intent("cz.mapyhazardu.android.activity.EDIT");
+			startActivity(intent);
+
+			Toast.makeText(this, getResources().getString(R.string.message_add_new_loc), Toast.LENGTH_SHORT).show();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
     
 	@Override
 	protected boolean isRouteDisplayed() {
