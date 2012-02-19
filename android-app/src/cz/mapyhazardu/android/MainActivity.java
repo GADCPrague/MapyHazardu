@@ -28,10 +28,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import cz.mapyhazardu.android.R;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+
+import cz.mapyhazardu.android.activity.EditActivity;
+import cz.mapyhazardu.android.activity.LocationActivity;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -41,74 +45,85 @@ public class MainActivity extends ActionBarActivity {
 	private CasinoOverlay casinoOverlay;
 
 	private MyLocationOverlay myLocationOverlay;
-	private GeoUpdateHandler listener = new GeoUpdateHandler();;
+	private GeoUpdateHandler listener = new GeoUpdateHandler();
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+	private GeoPoint geoPoint;
 
-//        setTitle(R.string.app_name);
-        
-        mapView = (MapView) findViewById(R.id.mapview);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+
+		// setTitle(R.string.app_name);
+
+		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
 		mapController = mapView.getController();
 		mapController.setZoom(19); // Zoon 1 is world view
-		
+
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
-			         
 		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.casino_icon), this, mapView);
 		mapView.getOverlays().add(casinoOverlay);
-		
+
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
-        mapView.getOverlays().add(myLocationOverlay);
+		mapView.getOverlays().add(myLocationOverlay);
 
-        mapView.postInvalidate();		
-    }
-    
-    @Override
-    protected void onResume() {
-            super.onResume();
-            myLocationOverlay.enableMyLocation();
-    		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, listener);
-    }
+		MapOverlay mapOverlay = new MapOverlay();
+		mapView.getOverlays().add(mapOverlay);
 
-    @Override
-    protected void onPause() {
-            super.onPause();
-        	if (listener != null) {
-        		locationManager.removeUpdates(listener);
-        	}
-            myLocationOverlay.disableMyLocation();
-    }
-    
-    @Override
-    protected void onStop() {
-    	super.onStop();
-    }
+		mapView.postInvalidate();
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_base, menu);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		myLocationOverlay.enableMyLocation();
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+	}
 
-        // Calling super after populating the menu is necessary here to ensure that the
-        // action bar helpers have a chance to handle this event.
-        
-        return super.onCreateOptionsMenu(menu);
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (listener != null) {
+			locationManager.removeUpdates(listener);
+		}
+		myLocationOverlay.disableMyLocation();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main_base, menu);
+
+		// Calling super after populating the menu is necessary here to ensure
+		// that the
+		// action bar helpers have a chance to handle this event.
+
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_refresh:
 			Toast.makeText(this, getResources().getString(R.string.message_refresh), Toast.LENGTH_SHORT).show();
+			geoPoint = mapView.getProjection().fromPixels(0, 0);
+			casinoOverlay.fetchCasinos(LocationUtils.getGeographicCoordinate(geoPoint));
 			break;
 		case R.id.menu_add:
-			Intent intent = new Intent("cz.mapyhazardu.android.activity.EDIT");
+			Intent intent = new Intent(this, EditActivity.class);
+			if (geoPoint != null) {
+				intent.putExtra(LocationActivity.GEO_POINT_LATITUDE, geoPoint.getLatitudeE6());
+				intent.putExtra(LocationActivity.GEO_POINT_LONGITUDE, geoPoint.getLongitudeE6());
+			}
 			startActivity(intent);
 
 			Toast.makeText(this, getResources().getString(R.string.message_add_new_loc), Toast.LENGTH_SHORT).show();
@@ -116,12 +131,12 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-    
+
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
+
 	public class GeoUpdateHandler implements LocationListener {
 
 		@Override
@@ -142,6 +157,20 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 		}
+	}
+
+	class MapOverlay extends Overlay {
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event, MapView mapview) {
+			if ((event.getAction() == MotionEvent.ACTION_DOWN) || (event.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
+				geoPoint = mapview.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+			} else {
+
+			}
+			return false;
+		}
+
 	}
 
 }

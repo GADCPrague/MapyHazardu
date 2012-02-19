@@ -9,7 +9,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -95,7 +97,12 @@ public class MapyHazarduImpl implements MapyHazardu {
 	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	        
 	        AbstractHttpClient httpClient = new DefaultHttpClient();
-	        httpClient.execute(httpPost);
+	        HttpResponse response = httpClient.execute(httpPost);
+	        int responseStatusCode = response.getStatusLine().getStatusCode();
+	        
+	        if (responseStatusCode != 201 /* created */) {
+	        	throw new RuntimeException("Casino was not created. Something goes wrong :(");
+	        }
 	        
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
