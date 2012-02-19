@@ -63,7 +63,10 @@ public class EditActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_ok:
-			Intent intent = new Intent("cz.mapyhazardu.android.activity.LOCATION");
+//			Intent intent = new Intent("cz.mapyhazardu.android.activity.LOCATION");
+			Intent intent = new Intent(this, LocationActivity.class);
+//			intent.put ...
+			
 			startActivity(intent);
 			break;
 		case R.id.menu_cancel:
