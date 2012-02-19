@@ -6,26 +6,24 @@ package cz.mapyhazardu.android.task;
 import java.util.List;
 
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
+import android.os.AsyncTask;
+import android.util.Log;
 import cz.mapyhazardu.android.CasinoOverlay;
-import cz.mapyhazardu.android.LocationUtils;
 import cz.mapyhazardu.api.MapyHazardu;
-import cz.mapyhazardu.api.MapyHazarduMock;
 import cz.mapyhazardu.api.domain.Casino;
 import cz.mapyhazardu.api.domain.GeographicCoordinate;
 import cz.mapyhazardu.api.impl.MapyHazarduImpl;
-import android.location.Location;
-import android.os.AsyncTask;
 
 /**
  * @author vlasta
  *
  */
-public class FetchCasinosTask extends AsyncTask<android.location.Location, Integer, List<Casino>> {
+public class FetchCasinosTask extends AsyncTask<GeographicCoordinate, Integer, List<Casino>> {
 
 	private final CasinoOverlay casinoOverlay;
 	private final MapView mapView;
+	private static final String TAG = "FetchCasinosTask";
 	
 	public FetchCasinosTask(CasinoOverlay casinoOverlay, MapView mapView) {
 		super();
@@ -34,10 +32,10 @@ public class FetchCasinosTask extends AsyncTask<android.location.Location, Integ
 	}
 
 	@Override
-	protected List<Casino> doInBackground(Location... param) {
-		Location location = param[0];
-		GeographicCoordinate position = new GeographicCoordinate(location.getLatitude(), location.getLongitude());
+	protected List<Casino> doInBackground(GeographicCoordinate... param) {
+		GeographicCoordinate position = param[0];
 		
+		Log.i(TAG, "Loading casino list");
 		List<Casino> casinos = getService().findNearestCasinos(position);
 		
 		return casinos;
@@ -45,12 +43,13 @@ public class FetchCasinosTask extends AsyncTask<android.location.Location, Integ
 
 	@Override
 	protected void onPostExecute(List<Casino> result) {
+		Log.i(TAG, "Displaying casino list");
+		
 		for (Casino casino : result) {
 			casinoOverlay.addCasino(casino);
 		}
 		
-//		mapView.invalidate();
-//		mapView.postInvalidate();
+		mapView.postInvalidate();
 	}
 
 	public MapyHazardu getService() {
