@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.android.actionbarcompat.R;
+import cz.mapyhazardu.android.R;
 
 import cz.mapyhazardu.android.MapyHazarduServiceProvider;
 import cz.mapyhazardu.api.domain.Casino;
@@ -52,6 +52,10 @@ public class LocationActivity extends Activity {
 			Toast.makeText(this, R.string.message_save_ok, Toast.LENGTH_LONG).show();
 		}
 		
+		finish();
+	}
+
+	public void cancelFeedback(View button) {
 		finish();
 	}
 

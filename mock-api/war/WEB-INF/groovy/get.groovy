@@ -1,5 +1,7 @@
 import com.google.appengine.api.urlfetch.HTTPResponse;
 
+import groovy.json.*
+
 log.info("Request params: ${params}")
 
 /* simple proxyfing of mapyhazardu api */
@@ -11,6 +13,15 @@ def mapyHazarduApiUrl = new URL("http://api.mapyhazardu.cz/v0/hells/nearest/?lng
 def HTTPResponse httpResponse = mapyHazarduApiUrl.get()
 def mapyHazarduNearestCasinosJsonResponse = httpResponse.text;
 
+/* merge our data with oficial api data */
+def parse = new JsonSlurper()
+def apiResult = parse.parseText(mapyHazarduNearestCasinosJsonResponse);
+
+/* obtain data */
+
+
+def mergedJsonResult = new JsonOutput().toJson(apiResult)
+
 /* write it back to client */
 response.contentType = "application/json"
-response.writer.write(mapyHazarduNearestCasinosJsonResponse)
+response.writer.write(mergedJsonResult)
