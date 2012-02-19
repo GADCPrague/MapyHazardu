@@ -39,7 +39,7 @@ public class LocationActivity extends Activity {
 
 			// visibility: gone
 			final TextView locationGeo = (TextView) findViewById(R.id.location_geo);
-			locationGeo.setText(String.format("šíøka: %s\ndélka: %s", latitude, longitude));
+			locationGeo.setText(String.format("ï¿½ï¿½ï¿½ka: %s\ndï¿½lka: %s", latitude, longitude));
 		}
 	}
 
