@@ -1,3 +1,4 @@
+package cz.mapyhazardu.api.impl;
 import java.util.List;
 
 import org.junit.Assert;
