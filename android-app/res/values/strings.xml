@@ -21,5 +21,6 @@
     <string name="message_confirm_new_loc">Potvrďte novou pozici v horním menu</string>
     <string name="message_save_ok">Herna byla úspěšně zaznamenána.\nDěkujeme za pomoc!</string>
     <string name="message_save_error">Nastala chyba při ukládání nové herny.\nOmlouváme se za potíže.</string>
+    <string name="message_error_when_obtaining_data_from_api">Nepovedlo se získat informaci o hernách ve vašem okolí. Máte zapnutý internet?</string>
 
 </resources>
