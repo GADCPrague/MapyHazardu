@@ -18,6 +18,7 @@ package cz.mapyhazardu.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,6 +40,8 @@ import cz.mapyhazardu.android.activity.LocationActivity;
 
 public class MainActivity extends ActionBarActivity {
 
+	private static final boolean ONLY_ENABLED_PROVIDERS = true;
+	
 	private MapController mapController;
 	private MapView mapView;
 	private LocationManager locationManager;
@@ -55,8 +58,6 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		// setTitle(R.string.app_name);
-
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
@@ -64,13 +65,20 @@ public class MainActivity extends ActionBarActivity {
 		mapController.setZoom(16); // Zoom 1 is world view
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		mapController.setCenter(LocationUtils.getGeoPoint(lastKnownLocation));
 
 		casinoOverlay = new CasinoOverlay(getResources().getDrawable(R.drawable.casino_icon), this, mapView);
 		mapView.getOverlays().add(casinoOverlay);
 
 		myLocationOverlay = new MyLocationOverlay(this, mapView);
+		myLocationOverlay.runOnFirstFix(new Runnable() {
+			
+			@Override
+			public void run() {
+				mapController.setCenter(LocationUtils.getGeoPoint(getLastKnownLocation()));
+			}
+			
+		});
+		
 		mapView.getOverlays().add(myLocationOverlay);
 
 		MapOverlay mapOverlay = new MapOverlay();
@@ -84,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onResume();
 		currentPositionAcquired = false;
 		myLocationOverlay.enableMyLocation();
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+		locationManager.requestLocationUpdates(getLocationProvider(), 5000, 100, listener);
 	}
 
 	@Override
@@ -100,6 +108,23 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+	}
+	
+	private Location getLastKnownLocation() {
+		String bestAvailableLocationProvider = getLocationProvider();
+		Location lastKnownLocation = locationManager.getLastKnownLocation(bestAvailableLocationProvider);
+		
+		return lastKnownLocation;
+	}
+
+	private String getLocationProvider() {
+		return locationManager.getBestProvider(accuracyIsMostImportant(), ONLY_ENABLED_PROVIDERS);
+	}
+	
+	private Criteria accuracyIsMostImportant() {
+		Criteria criteria = new Criteria();
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		return criteria;
 	}
 
 	@Override
