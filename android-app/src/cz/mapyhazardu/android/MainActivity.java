@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
 		mapController = mapView.getController();
-		mapController.setZoom(19); // Zoon 1 is world view
+		mapController.setZoom(16); // Zoom 1 is world view
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
